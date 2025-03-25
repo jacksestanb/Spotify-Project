@@ -1,49 +1,27 @@
-"use client";
+import React from 'react';
+import { songs } from '../Track/Track'
 
-import React, { useState } from 'react';
-
-export default function Tracklist() {
-
-    const songs =
-        [{
-            name: 'Desire',
-            artist: 'DBE',
-            album: 'Rockstar Life',
-            id: 1,
-        },
-        {
-            name: 'Dont',
-            artist: 'Ed Sheeran',
-            album: '+',
-            id: 2,
-        },
-        {
-            name: 'Pump 101',
-            artist: 'Digga D',
-            album: 'unknown',
-            id: 3,
-        }
-        ];
-
+export default function Tracklist({ addSongToPlaylist, selectedPlaylistId }) {
     return (
-        <>
-            <div className='bg-gray-100 py-10'>
-                <ul className='bg-gray-100'>
-                    {songs.map((song) => (
-                        <li key={song.id} className="max-w-[315px] my-2 pl-5 mx-auto flex justify-between items-center bg-blue-800 rounded-2xl">
-                            <div className="p-1">
-                                <h1 className="text-white">{song.name} - {song.artist}</h1>
-                                <h3 className='text-white'>{song.album}</h3>
-                            </div>
-                            <div className='mx-5 px-5 font-medium bg-blue-200 hover:bg-blue-50 rounded-3xl'>
-                                <button>ADD</button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+      <div className="bg-gray-100 p-4 rounded-lg">
+        {songs.map((song) => (
+          <div key={song.id} className="flex justify-between items-center mb-2 p-2 bg-white rounded">
+            <div>
+              <h1 className="text-lg font-semibold">{song.name}</h1>
+              <p className="text-sm text-gray-600">{song.artist} - {song.album}</p>
             </div>
-        </>
-    )
-
-
-}
+            <button
+              onClick={() => addSongToPlaylist(song)} // On click calls the addSongToPlaylist function with the song parameter that is passed down to Track using props in page.js
+              className={`px-4 py-2 rounded ${
+                !selectedPlaylistId  // If no playlist is selected this button become gray and unclickable
+                  ? 'bg-gray-300 cursor-not-allowed' 
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+              }`}
+            >
+              Add to Playlist
+            </button>
+          </div>
+        ))}
+      </div>
+    );
+  }
